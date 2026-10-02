@@ -1,6 +1,6 @@
 my agent
 
-initial version derived from Ddward Donner's course:
+initial version derived from Edward Donner's course:
    AI Engineer Agentic Track: The Complete Agent & MCP Course
    
 oct 2026, João Pagaime
