@@ -5,7 +5,8 @@ initial version derived from Edward Donner's course:
    
 oct 2026, João Pagaime
 
---------------project files:
+--------------
+project files:
 README.md - this file
 app.py - contains the Gradio app and OpenAI call.
 context.py -  loads in the static data and constructs the System Prompt
