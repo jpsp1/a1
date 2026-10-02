@@ -5,7 +5,7 @@ initial version derived from Edward Donner's course:
    
 oct 2026, João Pagaime
 
-project files:
+-- project files:
 
 README.md - this file
 
