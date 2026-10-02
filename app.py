@@ -4,10 +4,22 @@ from tools import tools, handle_tool_calls
 from styles import CSS, JS, EXAMPLES
 from dotenv import load_dotenv
 import gradio as gr
+import os
+import requests
+from openai.types.responses import ResponseTextDeltaEvent
+from agents import Agent, Runner, trace, function_tool, SQLiteSession
+import asyncio
+import sys
 
 load_dotenv(override=True)
 
 MODEL_NAME = "gpt-5.4-mini"
+
+
+# Make an agent with name, instructions, model
+
+agent = Agent(name="Jokester", instructions="You are a joke teller", model=MODEL_NAME)
+
 
 openai = OpenAI()
 
@@ -26,8 +38,14 @@ def chat(message, history):
         response = openai.chat.completions.create(model=MODEL_NAME, messages=messages, tools=tools)
     return response.choices[0].message.content
 
-
+async def main():
+    # Run the joke with Runner.run(agent, prompt)
+    result = await Runner.run(agent, "Tell a joke about Autonomous AI Agents")
+    print(result, flush=True)
+    
 if __name__ == "__main__":
+    asyncio.run(main())
+    sys.exit(0)
     gr.ChatInterface(
         chat,
         examples=EXAMPLES,

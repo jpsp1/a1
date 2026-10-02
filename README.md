@@ -30,3 +30,7 @@ summary.txt- context files for the agent:
 upload.sh - updates github
 
 
+-- snapshots
+ * a1.tgz.20261002_1124 - with async and runner.run. no chat
+ * a1.tgz  - simple chat
+ 
