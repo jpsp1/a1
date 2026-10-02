@@ -2,6 +2,8 @@ import json
 import os
 import requests
 from dotenv import load_dotenv
+from openai.types.responses import ResponseTextDeltaEvent
+from agents import Agent, Runner, trace, function_tool, SQLiteSession
 
 load_dotenv(override=True)
 
@@ -10,6 +12,7 @@ pushover_token = os.getenv("PUSHOVER_TOKEN")
 
 pushover_url = "https://api.pushover.net/1/messages.json"
 
+MODEL_NAME = "gpt-5.4-mini"
 
 def push(text):
     requests.post(
@@ -86,3 +89,16 @@ def handle_tool_calls(tool_calls):
             {"role": "tool", "content": json.dumps(result), "tool_call_id": tool_call.id}
         )
     return results
+
+
+@function_tool
+def push_tool(message: str) -> str:
+    """ Send the given message to the user as a push notification """
+    payload = {"user": pushover_user, "token": pushover_token, "message": message}
+    result = requests.post(pushover_url, data=payload).status_code
+    return f"Push sent with API status code {result}"
+
+
+
+notifier = Agent(name="Notifier", model=MODEL_NAME,
+ instructions="You notify the user upon request", tools=[push_tool])

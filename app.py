@@ -10,6 +10,7 @@ from openai.types.responses import ResponseTextDeltaEvent
 from agents import Agent, Runner, trace, function_tool, SQLiteSession
 import asyncio
 import sys
+from tools import notifier
 
 load_dotenv(override=True)
 
@@ -39,9 +40,12 @@ def chat(message, history):
     return response.choices[0].message.content
 
 async def main():
+    with trace("Pizza has arrived"):
+        result = await Runner.run(notifier, "Notify the user that the pizza is here")
+        print(result.final_output)
     # Run the joke with Runner.run(agent, prompt)
-    result = await Runner.run(agent, "Tell a joke about Autonomous AI Agents")
-    print(result, flush=True)
+    #result = await Runner.run(agent, "Tell a joke about Autonomous AI Agents")
+    #print(result, flush=True)
     
 if __name__ == "__main__":
     asyncio.run(main())
